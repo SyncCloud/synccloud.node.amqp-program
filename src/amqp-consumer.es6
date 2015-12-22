@@ -144,7 +144,7 @@ export default class AmqpConsumer {
                     message: message,
                     exception: exc
                 }),
-                (x) => `${x.message.msg} from ${x.message.consumer.queue} at ${x.message.amqp.uri}:\n` +
+                (x) => `${x.message.msg} from ${x.message.consumer.queue} TAG=${x.message.message.fields.deliveryTag} at ${x.message.amqp.uri}:\n` +
                         Log.format(x.message.exception));
 
             try {

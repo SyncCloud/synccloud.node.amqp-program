@@ -313,9 +313,10 @@ export default class ProgramBase {
         catch (exc) {
             await this._handleErrorAsync(message, exc);
             error = exc;
+            throw exc;
         }
         finally {
-            await this._finalizeHandlerAsync(message, error);
+            //await this._finalizeHandlerAsync(message, error);
         }
     }
 
@@ -373,25 +374,25 @@ export default class ProgramBase {
     @trace
     async _finalizeHandlerAsync(message, error) {
         let err = error;
-        try {
-            await message.tryRequeueAsync();
-        }
-        catch (exc) {
-            Log.error(
-                () => ({
-                    msg: 'Failed to requeue AMQP message',
-                    app: this,
-                    message: message,
-                    exception: exc
-                }),
-                (x) => `${x.message.msg} (TAG=${x.message.message.fields.deliveryTag}` +
-                        `):\n${Log.format(x.message.exception)}`);
-
-            err || (err = exc);
-        }
+        //try {
+        //    await message.tryRequeueAsync();
+        //}
+        //catch (exc) {
+        //    Log.error(
+        //        () => ({
+        //            msg: 'Failed to requeue AMQP message',
+        //            app: this,
+        //            message: message,
+        //            exception: exc
+        //        }),
+        //        (x) => `${x.message.msg} (TAG=${x.message.message.fields.deliveryTag}` +
+        //                `):\n${Log.format(x.message.exception)}`);
+        //
+        //    err || (err = exc);
+        //}
 
         if (err) {
-            this._cancellation.cancel(error);
+            //this._cancellation.cancel(error);
             throw err;
         }
     }
