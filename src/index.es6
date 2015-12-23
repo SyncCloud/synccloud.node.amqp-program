@@ -14,9 +14,8 @@ const errors = require('./errors');
 import Log from './log';
 // import logging from './logging';
 const logging = require('./logging');
-import ProgramBase from './program-base';
 
 export default _.merge(
     {}, {AmqpChannel}, {AmqpClient}, {AmqpConsumer},
     assertType, cancellation, {Config}, decorators,
-    {Deferred}, errors, {Log}, logging, {ProgramBase});
+    {Deferred}, errors, {Log}, logging);

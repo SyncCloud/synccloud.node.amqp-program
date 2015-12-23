@@ -42,7 +42,7 @@ trace.format = (obj) => {
 };
 
 trace.onEnter = (target, name, descriptor, func, instance, args) => {
-    trace.logger.trace(
+    trace.logger && trace.logger.trace(
         () => ({
             event: 'call',
             method: {
@@ -63,7 +63,7 @@ trace.onEnter = (target, name, descriptor, func, instance, args) => {
 };
 
 trace.onError = (target, name, descriptor, func, instance, args, error) => {
-    trace.logger.trace(
+    trace.logger && trace.logger.trace(
         () => ({
             event: 'error',
             method: {
@@ -86,7 +86,7 @@ trace.onError = (target, name, descriptor, func, instance, args, error) => {
 };
 
 trace.onSuccess = (target, name, descriptor, func, instance, args, result) => {
-    trace.logger.trace(
+    trace.logger && trace.logger.trace(
         () => ({
             event: 'exit',
             method: {
