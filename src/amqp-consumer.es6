@@ -59,6 +59,8 @@ export default class AmqpConsumer {
 
     @trace
     async cancelAsync(err) {
+        console.trace('cancelAsync');
+
         if (this.isOpen) {
             this._dying = true;
 
@@ -147,29 +149,29 @@ export default class AmqpConsumer {
                 (x) => `${x.message.msg} from ${x.message.consumer.queue} TAG=${x.message.message.fields.deliveryTag} at ${x.message.amqp.uri}:\n` +
                         Log.format(x.message.exception));
 
-            try {
-                this.channel._channel
-                    .reject(message, !'requeue');
-            }
-            catch (exc2) {
-                Log.warning(
-                    () => ({
-                        msg: 'Failed to dequeue AMQP message',
-                        amqp: this.amqp,
-                        channel: this.channel,
-                        consumer: this,
-                        message: message,
-                        exception: exc2
-                    }),
-                    (x) => `${x.message.msg} from ${x.message.consumer.queue} at ${x.message.amqp.uri}:\n` +
-                            Log.format(x.message.exception));
-            }
-
-            try {
-                await this.cancelAsync(exc);
-            }
-            catch (ignore) {
-            }
+            //try {
+            //    await this.channel._channel
+            //        .reject(message, !'requeue');
+            //}
+            //catch (exc2) {
+            //    Log.warning(
+            //        () => ({
+            //            msg: 'Failed to dequeue AMQP message',
+            //            amqp: this.amqp,
+            //            channel: this.channel,
+            //            consumer: this,
+            //            message: message,
+            //            exception: exc2
+            //        }),
+            //        (x) => `${x.message.msg} from ${x.message.consumer.queue} at ${x.message.amqp.uri}:\n` +
+            //                Log.format(x.message.exception));
+            //}
+            //
+            //try {
+            //    await this.cancelAsync(exc);
+            //}
+            //catch (ignore) {
+            //}
         }
     }
 }
@@ -181,6 +183,10 @@ class AmqpMessage {
 
     get status() {
         return this._status || 'non-acked';
+    }
+
+    get deliveryTag() {
+        return this.fields && this.fields.deliveryTag;
     }
 
     get redeliveredCount() {
