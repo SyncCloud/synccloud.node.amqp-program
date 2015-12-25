@@ -59,7 +59,6 @@ export default class AmqpConsumer {
 
     @trace
     async cancelAsync(err) {
-        console.trace('cancelAsync');
 
         if (this.isOpen) {
             this._dying = true;
