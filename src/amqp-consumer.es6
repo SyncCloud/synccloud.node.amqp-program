@@ -83,6 +83,12 @@ export default class AmqpConsumer {
 
     @trace
     async _cancelAsync() {
+        if (this._isCanceling) {
+            return;
+        }
+
+        this._isCanceling = true;
+
         try {
             await new Promise((resolve, reject) => {
                 setTimeout(() => {
@@ -104,6 +110,8 @@ export default class AmqpConsumer {
                 }),
                 (x) => `${x.message.msg} of ${x.message.consumer.queue} at ` +
                         `${x.message.amqp.uri}:\n${Log.format(x.message.exception)}`);
+        } finally {
+            delete this._isCanceling;
         }
     }
 

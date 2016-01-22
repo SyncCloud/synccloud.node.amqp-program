@@ -175,10 +175,10 @@ export default class AmqpChannel {
     }
 
     @trace
-    async consumeAsync(queue, handler) {
+    async consumeAsync(queue, handler, options) {
         const consumer = new AmqpConsumer(this, queue, handler);
         const response = await this._channel.consume(
-            queue, (message) => consumer._handle(message));
+            queue, (message) => consumer._handle(message), options);
         consumer._consumerTag = response.consumerTag;
         this._consumers.push(consumer);
         return consumer;
