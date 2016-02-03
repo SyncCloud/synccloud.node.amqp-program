@@ -83,7 +83,7 @@ export default class AmqpConsumer {
 
     @trace
     async _cancelAsync() {
-        if (this._isCanceling) {
+        if (this._isCanceling || this._wasCanceled) {
             return;
         }
 
@@ -96,7 +96,10 @@ export default class AmqpConsumer {
                 }, 3000);
 
                 this.channel._channel.cancel(this.consumerTag)
-                    .then(() => resolve(), (err) => reject(err));
+                    .then(() => {
+                        this._wasCanceled = true;
+                        resolve()
+                    }, (err) => reject(err));
             });
         }
         catch (exc) {
