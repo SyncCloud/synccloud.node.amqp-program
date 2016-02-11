@@ -1,0 +1,9 @@
+publish:
+  npm:
+    username: $$NPM_USERNAME
+    password: $$NPM_PASSWORD
+    email: $$NPM_EMAIL
+    registry: "http://npm.synccloud.co"
+    always_auth: true
+    when:
+      event: tag
