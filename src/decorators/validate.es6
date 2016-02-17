@@ -5,7 +5,7 @@ export default function validate(rules) {
   return validate.named(rules);
 }
 
-validate.named = function(rules) {
+validate.named = function (rules) {
   return function (target, name, descriptor) {
     if (typeof (descriptor.value) === 'function') {
       const fn = descriptor.value;
@@ -74,7 +74,6 @@ const rules = validate.rules = {
 };
 
 
-
 function *lazyValidateObject(obj, ruleSet) {
 
   const knownRules = _.keys(rules);
@@ -110,7 +109,7 @@ function validateAllError(obj, ruleSet) {
   const errors = [];
   let next;
 
-  while(!(next = gen.next()).done) {
+  while (!(next = gen.next()).done) {
     errors.push(next.value);
     //console.log(next);
   }
