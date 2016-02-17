@@ -73,18 +73,20 @@ const rules = validate.rules = {
   },
 };
 
-const supportedRules = _.keys(rules);
 
 
 function *lazyValidateObject(obj, ruleSet) {
+
+  const knownRules = _.keys(rules);
+
   for (let [key, rules] of _.pairs(ruleSet)) {
     rules = _.isArray(rules) ? rules : [rules];
     //console.log(`${key}: ${rules} `);
     for (let validator of rules) {
       //console.log(`${validator.name}`);
       if (_.isFunction(validator)) {
-        if (supportedRules.indexOf(validator.name) < 0) {
-          throw new Error(`not supported rule ${rule.name}. list of all rule functions:\n${supportedRules.join('\n')}`)
+        if (knownRules.indexOf(validator.name) < 0) {
+          throw new Error(`unkown rule ${rule.name}. list of all rule functions:\n${knownRules.join('\n')}`)
         }
         const result = validator(obj[key], key, obj);
         if (result) {
