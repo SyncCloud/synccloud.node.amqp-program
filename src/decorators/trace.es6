@@ -26,6 +26,7 @@ function trace(target, name, descriptor) {
         };
         return descriptor;
     }
+
     throw new Error(`descriptor.value should be function, got ${typeof (descriptor.value)}`);
 }
 
