@@ -4,7 +4,7 @@ import stringify from 'json-stringify-safe';
 import {decorate, enumerable, lazyInitialize, nonenumerable} from 'core-decorators';
 import _, {memoize} from 'lodash';
 
-const DATETIME_FORMAT = 'dd-MM HH:mm:ss.SSSSSSSSS';
+const DATETIME_FORMAT = 'DD-MM HH:mm:ss.SSSSSSSSS';
 const TIME_FORMAT = 'HH:mm:ss.SSSSSSSSS';
 const empty = () => '';
 
