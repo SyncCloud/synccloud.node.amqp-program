@@ -3,6 +3,7 @@ import moment from 'moment';
 import stringify from 'json-stringify-safe';
 import {decorate, enumerable, lazyInitialize, nonenumerable} from 'core-decorators';
 import _, {memoize} from 'lodash';
+import uuid from 'node-uuid';
 
 const DATETIME_FORMAT = 'DD-MM HH:mm:ss.SSSSSSSSS';
 const TIME_FORMAT = 'HH:mm:ss.SSSSSSSSS';
@@ -196,6 +197,16 @@ class Logger {
   }
 }
 
+class JSONFormatter {
+  canFormat(obj) {
+    return typeof (obj) !== 'function' && !(obj instanceof Error);
+  }
+
+  format(obj) {
+    return stringify(obj, null, 2);
+  }
+}
+
 class StreamTarget {
   get stream() {
     return this._stream;
@@ -267,6 +278,7 @@ class ConsoleTarget {
   }
 }
 
+
 class TargetCollection {
   get targets() {
     return this._targets;
@@ -324,6 +336,7 @@ module.exports.Logger = Logger;
 module.exports.StreamTarget = StreamTarget;
 module.exports.ConsoleTarget = ConsoleTarget;
 module.exports.TargetCollection = TargetCollection;
+module.exports.JSONFormatter = JSONFormatter;
 module.exports.FormatterCollection = FormatterCollection;
 module.exports.padRight = padRight;
 module.exports.indent = indent;
